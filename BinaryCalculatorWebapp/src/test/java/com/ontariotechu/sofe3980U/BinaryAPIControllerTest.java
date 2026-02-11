@@ -158,6 +158,13 @@ public class BinaryAPIControllerTest {
     }
 
     @Test
+    public void and1() throws Exception {
+        this.mvc.perform(get("/and").param("operand1","1000").param("operand2","1111"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("1000"));
+    }
+
+    @Test
     public void and2() throws Exception {
         this.mvc.perform(get("/and").param("operand1","1010").param("operand2","11"))
             .andExpect(status().isOk())
