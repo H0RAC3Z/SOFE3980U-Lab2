@@ -35,43 +35,89 @@ public class BinaryAPIControllerTest {
    
     @Test
     public void add1() throws Exception {
-        this.mvc.perform(get("/add").param("operand1","111").param("operand2","1010"))//.andDo(print())
+        this.mvc.perform(get("/add").param("operand1","1000").param("operand2","1111"))
             .andExpect(status().isOk())
-            .andExpect(content().string("10001"));
+            .andExpect(content().string("10111"));
     }
+
     @Test
     public void add2() throws Exception {
-        this.mvc.perform(get("/add").param("operand1","000").param("operand2","110011"))//.andDo(print())
+        this.mvc.perform(get("/add").param("operand1","1010").param("operand2","11"))
             .andExpect(status().isOk())
-            .andExpect(content().string("110011"));
+            .andExpect(content().string("1101"));
     }
-	@Test
+
+    @Test
     public void add3() throws Exception {
-        this.mvc.perform(get("/add_json").param("operand1","111").param("operand2","1010"))//.andDo(print())
+        this.mvc.perform(get("/add").param("operand1","11").param("operand2","1010"))
             .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.operand1").value(111))
-			.andExpect(MockMvcResultMatchers.jsonPath("$.operand2").value(1010))
-			.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(10001))
-			.andExpect(MockMvcResultMatchers.jsonPath("$.operator").value("add"));
+            .andExpect(content().string("1101"));
     }
+
     @Test
     public void add4() throws Exception {
-        this.mvc.perform(get("/add_json").param("operand1","01010").param("operand2","101010"))//.andDo(print())
+        this.mvc.perform(get("/add").param("operand1","0").param("operand2","1010"))
             .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.operand1").value(1010))
-			.andExpect(MockMvcResultMatchers.jsonPath("$.operand2").value(101010))
-			.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(110100))
-			.andExpect(MockMvcResultMatchers.jsonPath("$.operator").value("add"));
+            .andExpect(content().string("1010"));
     }
+
     @Test
     public void add5() throws Exception {
-        this.mvc.perform(get("/add_json").param("operand1","1100").param("operand2","0011"))//.andDo(print())
+        this.mvc.perform(get("/add").param("operand1","0").param("operand2","0"))
             .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.operand1").value(1100))
-			.andExpect(MockMvcResultMatchers.jsonPath("$.operand2").value(11))
-			.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1111))
-			.andExpect(MockMvcResultMatchers.jsonPath("$.operator").value("add"));
+            .andExpect(content().string("0"));
     }
+
+    @Test
+    public void add_json1() throws Exception {
+        this.mvc.perform(get("/add_json").param("operand1","1000").param("operand2","1111"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.operand1").value(1000))
+            .andExpect(jsonPath("$.operand2").value(1111))
+            .andExpect(jsonPath("$.result").value(10111))
+            .andExpect(jsonPath("$.operator").value("add"));
+    }
+
+    @Test
+    public void add_json2() throws Exception {
+        this.mvc.perform(get("/add_json").param("operand1","1010").param("operand2","11"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.operand1").value(1010))
+            .andExpect(jsonPath("$.operand2").value(11))
+            .andExpect(jsonPath("$.result").value(1101))
+            .andExpect(jsonPath("$.operator").value("add"));
+    }
+
+    @Test
+    public void add_json3() throws Exception {
+        this.mvc.perform(get("/add_json").param("operand1","11").param("operand2","1010"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.operand1").value(11))
+            .andExpect(jsonPath("$.operand2").value(1010))
+            .andExpect(jsonPath("$.result").value(1101))
+            .andExpect(jsonPath("$.operator").value("add"));
+    }
+
+    @Test
+    public void add_json4() throws Exception {
+        this.mvc.perform(get("/add_json").param("operand1","0").param("operand2","1010"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.operand1").value(0))
+            .andExpect(jsonPath("$.operand2").value(1010))
+            .andExpect(jsonPath("$.result").value(1010))
+            .andExpect(jsonPath("$.operator").value("add"));
+    }
+
+    @Test
+    public void add_json5() throws Exception {
+        this.mvc.perform(get("/add_json").param("operand1","0").param("operand2","0"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.operand1").value(0))
+            .andExpect(jsonPath("$.operand2").value(0))
+            .andExpect(jsonPath("$.result").value(0))
+            .andExpect(jsonPath("$.operator").value("add"));
+    }
+
     @Test
     public void or1() throws Exception {
         this.mvc.perform(get("/or").param("operand1","1000").param("operand2","1111"))
