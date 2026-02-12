@@ -1,3 +1,5 @@
+cd into BinaryCalculatorWebapp directory before running the following commands.
+
 Clean(Remove target directory) and Build(Regenerate and build target directory artifacts)
 ```
 mvn clean install
